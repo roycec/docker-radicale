@@ -12,6 +12,7 @@ In my case Radicale runs on port 5232 on the localhost of the host. You will nee
 ## Run container with docker-compose
 
 `sudo docker-compose up -d`
+
 `sudo docker-compose ps`
 
 **Todo:** Run Nginx and certbot/letsencrypt in container 
