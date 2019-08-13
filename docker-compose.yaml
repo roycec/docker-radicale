@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+  radicale:
+    container_name: radicale
+    image: radicale:2.1.11-3
+    ports:
+      - "127.0.0.1:5232:5232"
+    read_only: false
+    user: "3999"
+    volumes:
+      - data:/var/lib/radicale
+      - config:/etc/radicale:ro
+      - /var/log/radicale:/var/log/radicale
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ="Europe/Berlin"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5232"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      #start_period: 40s
+      #disable: true
+
+volumes:
+  config:
+    external:
+      name: radicale-config
+  data:
+    external:
+      name: radicale-data
