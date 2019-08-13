@@ -7,7 +7,7 @@ In my case Radicale runs on port 5232 on the localhost of the host. You will nee
 
 ## Build docker image
 
-`cd /path/to/dockerfile/dir`
+`cd /path/to/dockerfile`
 
 `sudo docker build -t radicale:2.1.11 .`
 
