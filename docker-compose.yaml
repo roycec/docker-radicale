@@ -1,27 +1,37 @@
-version: '3.3'
+version: '3.7'
 
 services:
   radicale:
     container_name: radicale
-    image: radicale:2.1.11-3
+    image: radicale:3.1.1-1
     ports:
       - "127.0.0.1:5232:5232"
-    read_only: false
+    #init: true
+    read_only: true
     user: "3999"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+      - CHOWN
+      - KILL
+    healthcheck:
+      test: curl -f http://127.0.0.1:5232 || exit 1
+      interval: 120s
+      retries: 3
     volumes:
       - data:/var/lib/radicale
       - config:/etc/radicale:ro
-      - /var/log/radicale:/var/log/radicale
+#      - /var/log/radicale:/var/log/radicale
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - TZ="Europe/Berlin"
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:5232"]
-      interval: 120s
-      timeout: 10s
-      retries: 3
-      #start_period: 40s
-      #disable: true
+      - TZ=Europe/Berlin
+#      - USER_UID=3999
+#      - USER_GID=3999
+    restart: unless-stopped
 
 volumes:
   config:
